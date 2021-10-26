@@ -13,7 +13,7 @@ class AdvertisingCampaign extends Model
         'name', 'date_from', 'date_to', 'total_budget', 'daily_budget'
     ];
 
-    public function creativeUpload() {
+    public function creativeUploads() {
         return $this->hasMany(CreativeUpload::class);
     }
 }

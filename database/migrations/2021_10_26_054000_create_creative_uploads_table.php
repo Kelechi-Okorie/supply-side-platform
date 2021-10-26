@@ -16,8 +16,8 @@ class CreateCreativeUploadsTable extends Migration
         Schema::create('creative_uploads', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('campaign_id')->unsigned()->nullable();
-            $table->foreign('campaign_id')->references('id')->on('advertising_campaigns');
+            $table->foreignId('advertising_campaign_id')->unsigned()->nullable();
+            $table->foreign('advertising_campaign_id')->references('id')->on('advertising_campaigns');
     
             $table->string('filepath');
             

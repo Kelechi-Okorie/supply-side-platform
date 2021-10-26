@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AdvertisingCampaignController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Models\AdvertisingCampaign;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('campaign-list');
-});
+Route::get('/', [AdvertisingCampaignController::class, 'index']);
+
 
 Route::get('/edit', function () {
     return view('campaign-edit');
@@ -25,3 +26,21 @@ Route::get('/edit', function () {
 Route::post('/test', function(Request $request) {
     ddd($request);
 });
+
+Route::get('/view/{id}', function(Request $request) {
+    $advertising_campaign = AdvertisingCampaign::find($request->id);
+    
+    if($advertising_campaign == null) {
+        return view('not-found');
+    }
+
+
+
+    $creative_uploads = $advertising_campaign->creativeUploads;
+
+    // dd($creative_uploads);
+    return view('campaign-view')
+    ->with('advertising_campaign', $advertising_campaign)
+    ->with('creative_uploads', $creative_uploads);
+
+})->name('view-campaign');

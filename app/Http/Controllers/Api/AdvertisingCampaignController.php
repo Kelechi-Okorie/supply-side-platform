@@ -12,7 +12,12 @@ use Illuminate\Support\Str;
 class AdvertisingCampaignController extends Controller
 {
     public function index() {
-        return AdvertisingCampaign::all();
+        $advertising_campaign = AdvertisingCampaign::all();
+
+        // ddd($advertising_campaign);
+        return view('campaign-list')
+        ->with('advertising_campaigns', $advertising_campaign);
+    
     }
 
     public function store(Request $request) {
@@ -45,7 +50,7 @@ class AdvertisingCampaignController extends Controller
                     Storage::disk('public')->put($name, file_get_contents($file->getRealPath()));
 
                     $creative_upload = new CreativeUpload();
-                    $creative_upload->campaign_id = $advertising_campaign->id;
+                    $creative_upload->advertising_campaign_id = $advertising_campaign->id;
                     $creative_upload->filepath = $name;
 
                     $creative_upload->save();
@@ -69,4 +74,5 @@ class AdvertisingCampaignController extends Controller
         return response()->json($response, 404);    
 
     }
+
 }   
