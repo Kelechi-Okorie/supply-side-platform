@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdvertisingCampaign;
+use App\Models\CreativeUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -35,20 +36,28 @@ class AdvertisingCampaignController extends Controller
             'daily_budget' => $daily_budget
         ]);
 
-        $file_names_to_store_to_db = Array();
 
-        foreach($request->file('files') as $file) {
-            if($file->isValid()) {
-                $name = time() . Str::random(15) . '-' . $file->getClientOriginalExtension();
-                Storage::disk('public')->put($name, $file);
-
-                $file_names_to_store_to_db[] = $name;
-            }
-        }
 
         if($advertising_campaign->save()) {
+            foreach($request->file('creative_upload') as $file) {
+                if($file->isValid()) {
+                    $name = time() . Str::random(15) . '-' . $file->getClientOriginalExtension();
+                    Storage::disk('public')->put($name, $file);
+
+                    $creative_upload = new CreativeUpload();
+                    $creative_upload->campaign_id = $advertising_campaign->id;
+                    $creative_upload->name = $name;
+
+                    $creative_upload->save();
+    
+                }
+            }
+            // if($request->hasFile('creative_upload')) {
+            //     return response()->json('test', 200);
+            // }
+    
             $response = [
-                'msg' => 'Campaign created',
+                'msg' => 'Successful! Campaign created',
                 'campaign' => $advertising_campaign
             ];
     

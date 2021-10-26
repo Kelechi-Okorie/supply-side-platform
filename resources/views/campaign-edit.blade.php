@@ -58,6 +58,11 @@
                 <button class="btn btn-info" id="add_creative_upload_btn">Add creative upload</button>
             </div>
 
+            <div class="form-group">
+                <input type="file" class="form-control-file" name="file[]" id="file" multiple="">
+              
+            </div>
+
             <div class="mb-3 d-flex justify-content-end">
                 <button type="submit" class="btn btn-danger" name="submit" id="submit">Submit</button>
             </div>
@@ -71,7 +76,7 @@
 <template id="creative_upload_input_element">
     <div class="mb-3">
         <label for="">Creative upload</label>
-        <input type="file" class="form-control" name="" id="">
+        <input type="file" class="form-control" name="creative_upload" id="">
     </div>
 </template>
 
@@ -107,14 +112,8 @@
 
                 const clone = template.content.cloneNode(true);
 
-                const label = clone.querySelector('label');
-                label.textContent = `Creative upload ${numberOfCreativeUploads}`;
-
                 const input = clone.querySelector('input')
                 input.id = `creative_upload_${numberOfCreativeUploads}`;
-                input.name = `creative_upload_${numberOfCreativeUploads}`;
-
-                label.setAttribute('for', input.name)
 
                 creativeUploadContainer.appendChild(clone);
 
@@ -160,9 +159,10 @@
                 console.log(response);
                 return response.json();
             })
-            .then(data => {
+            .then(response => {
+                console.log('from line 158', response);
                 const responseMessage = document.querySelector('p#response_message');
-                responseMessage.textContent = data.msg;
+                responseMessage.textContent = response.msg;
                 responseModal.show();
 
             })
