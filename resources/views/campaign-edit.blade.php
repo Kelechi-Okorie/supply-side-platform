@@ -10,8 +10,8 @@
         </div>
         <h4 class="h4 mb-4">Edit Campaign</h4>
         
-        <form id="campaign_form" action="" method="post">
-
+        <form enctype="multipart/form-data" id="campaign_form" action="{{ url('/test')}}" method="post">
+            @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" name="name" id="name" placeholder="advertising campaign name">
@@ -58,14 +58,17 @@
                 <button class="btn btn-info" id="add_creative_upload_btn">Add creative upload</button>
             </div>
 
-            <div class="form-group">
-                <input type="file" class="form-control-file" name="file[]" id="file" multiple="">
-              
-            </div>
-
             <div class="mb-3 d-flex justify-content-end">
                 <button type="submit" class="btn btn-danger" name="submit" id="submit">Submit</button>
             </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <input type="submit" class="btn btn-danger" name="submit_2" value="submit mock">
+            </div>
+            <div class="mb-3">
+                <label for="">Creative upload</label>
+                <input type="file" class="form-control" name="just_files" id="">
+            </div>
+        
 
         </form>
     </div>
@@ -132,12 +135,10 @@
 
 
             const fileInputs = document.querySelectorAll('input[type=file]');
+            // console.log(fileInputs); return;
 
             let uploadedFiles = [];
 
-            for(let i = 0; i <= fileInputs.length - 1; i++) {
-                uploadedFiles.push(fileInputs[i].files[0]);
-            }
             const formData = new FormData();
 
             const form = document.querySelector('form#campaign_form');
@@ -147,7 +148,9 @@
             formData.append('date_to', form.date_to.value);
             formData.append('total_budget', form.total_budget.value);
             formData.append('daily_budget', form.daily_budget.value);
-            formData.append('creative_uploads', uploadedFiles);
+            for (let i = 0; i < fileInputs.length; i++) {
+                formData.append(`file_${i}`, fileInputs[i].files[0]);
+            }
 
             const config = {
                 method: 'POST',

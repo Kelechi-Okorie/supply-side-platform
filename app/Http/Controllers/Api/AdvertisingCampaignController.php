@@ -15,7 +15,7 @@ class AdvertisingCampaignController extends Controller
         return AdvertisingCampaign::all();
     }
 
-    public function edit(Request $request) {
+    public function store(Request $request) {
 
         $this->validate($request, [
             'name' => 'required'
@@ -39,22 +39,19 @@ class AdvertisingCampaignController extends Controller
 
 
         if($advertising_campaign->save()) {
-            foreach($request->file('creative_upload') as $file) {
+            foreach($request->files as $file) {
                 if($file->isValid()) {
-                    $name = time() . Str::random(15) . '-' . $file->getClientOriginalExtension();
-                    Storage::disk('public')->put($name, $file);
+                    $name = time() . '-' . Str::random(15) . '.' . $file->getClientOriginalExtension();
+                    Storage::disk('public')->put($name, file_get_contents($file->getRealPath()));
 
                     $creative_upload = new CreativeUpload();
                     $creative_upload->campaign_id = $advertising_campaign->id;
-                    $creative_upload->name = $name;
+                    $creative_upload->filepath = $name;
 
                     $creative_upload->save();
     
                 }
             }
-            // if($request->hasFile('creative_upload')) {
-            //     return response()->json('test', 200);
-            // }
     
             $response = [
                 'msg' => 'Successful! Campaign created',

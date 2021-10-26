@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,8 @@ Route::get('/', function () {
 
 Route::get('/edit', function () {
     return view('campaign-edit');
+});
+
+Route::post('/test', function(Request $request) {
+    ddd($request);
 });

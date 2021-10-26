@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('advertising-campaign', [AdvertisingCampaignController::class, 'edit']);
+Route::post('advertising-campaign', [AdvertisingCampaignController::class, 'store']);
 Route::get('advertising-campaign', [AdvertisingCampaignController::class, 'index']);
