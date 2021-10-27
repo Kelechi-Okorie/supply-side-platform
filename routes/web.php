@@ -19,9 +19,19 @@ use App\Models\AdvertisingCampaign;
 Route::get('/', [AdvertisingCampaignController::class, 'index']);
 
 
-Route::get('/edit', function () {
+Route::get('/campaign/new', function(Request $request) {
     return view('campaign-edit');
-});
+})->name('new-campaign');
+
+Route::get('campaign/edit/{id}', function(Request $request, $id) {
+    $advertising_campaign = AdvertisingCampaign::find($id);
+    $creative_uploads = $advertising_campaign->creativeUploads;
+
+    return view('campaign-edit')
+        ->with('advertising_campaign', $advertising_campaign)
+        ->with('creative_uploads', $creative_uploads);
+
+})->name('edit-campaign');
 
 Route::post('/test', function(Request $request) {
     ddd($request);

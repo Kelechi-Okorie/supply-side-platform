@@ -18,11 +18,11 @@ class CreateAdvertisingCampaignsTable extends Migration
 
             $table->string('name');
 
-            $table->dateTime('date_from');
-            $table->dateTime('date_to');
+            $table->date('date_from');
+            $table->date('date_to');
 
-            $table->integer('total_budget');
-            $table->integer('daily_budget');
+            $table->float('total_budget', 10, 2);
+            $table->float('daily_budget', 10, 2);
 
             $table->timestamps();
 

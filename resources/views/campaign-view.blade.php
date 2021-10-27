@@ -6,9 +6,9 @@
 <div class="row justify-content-center">
     <div class="col-sm-12 col-md-10 col-lg-8">
         <div class="d-flex justify-content-end">
-            <a href={{ url('/')}} class="btn btn-primary ml-auto d-inline-block px-4">View All Campaigns</a>
+            <a href={{ url('/')}} class="btn btn-primary ml-auto d-inline-block px-4">View All Campaigns</a>&nbsp;<a href={{ route('edit-campaign', [$advertising_campaign->id])}} class="btn btn-primary ml-auto d-inline-block px-4">Edit Campaign</a>
         </div>
-        <h4 class="h4 mb-4">Edit Campaign</h4>
+        <h4 class="h4 mb-4">View Campaign</h4>
         
         <div>
             @csrf
@@ -54,7 +54,7 @@
 
             <div>
                 @foreach($creative_uploads as $upload)
-                    <img src="/public/storage/{{$upload->filepath}}" class="img-fluid" alt="...">
+                    <img src="{{asset('storage/' . $upload->filepath)}}" class="img-fluid" alt="...">
                 @endforeach
             <div>
   

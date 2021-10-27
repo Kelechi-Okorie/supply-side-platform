@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AdvertisingCampaignController;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('advertising-campaign', [AdvertisingCampaignController::class, 'store']);
-Route::get('advertising-campaign', [AdvertisingCampaignController::class, 'index']);
+Route::post('v1/advertising-campaign', [AdvertisingCampaignController::class, 'store']);
+Route::get('v1/advertising-campaign', [AdvertisingCampaignController::class, 'index']);
+Route::get('v1/advertising-campaign/{campaign_id}/images', [ImageController::class, 'showImages']);

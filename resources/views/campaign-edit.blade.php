@@ -1,3 +1,7 @@
+@php
+    $is_edit = isset($advertising_campaign);
+@endphp
+
 @extends('layouts.master')
 
 
@@ -8,13 +12,17 @@
         <div class="d-flex justify-content-end">
             <a href={{ url('/')}} class="btn btn-primary ml-auto d-inline-block px-4">View All Campaigns</a>
         </div>
-        <h4 class="h4 mb-4">Edit Campaign</h4>
+        <h4 class="h4 mb-4">{{$is_edit?'Edit':'New'}} Campaign</h4>
         
         <form enctype="multipart/form-data" id="campaign_form" action="{{ url('/test')}}" method="post">
             @csrf
+
+            <input type="hidden" name="is_edit" value="{{$is_edit? '1' : '0'}}">
+            <input type="hidden" name="id" value="{{$is_edit? $advertising_campaign->id : '0'}}">
+
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="advertising campaign name" contenteditable="false">
+                <input type="text" class="form-control" name="name" id="name" placeholder="advertising campaign name" value="{{$is_edit?$advertising_campaign->name:old('name')}}">
             </div>
 
             <div class="mb-3">
@@ -24,12 +32,12 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label for="date_from">From</label>
-                            <input type="date" class="form-control" name="date_from">
+                            <input type="date" class="form-control" name="date_from" value="{{$is_edit?$advertising_campaign->date_from:old('date_from')}}">
         
                         </div>
                         <div class="col-sm-6">
                             <label for="date_to">To</label>
-                            <input type="date" class="form-control" name="date_to">
+                            <input type="date" class="form-control" name="date_to" value="{{$is_edit?$advertising_campaign->date_to:old('date_to')}}">
         
                         </div>
                     </div>
@@ -40,7 +48,7 @@
                 <label for="total_budget">Total budget</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" name="total_budget">
+                    <input type="number" class="form-control" name="total_budget" value="{{$is_edit?$advertising_campaign->total_budget:old('total_budget')}}">
                 </div>
             </div>
 
@@ -48,7 +56,7 @@
                 <label for="daily_budget">Daily budget</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" name="daily_budget">
+                    <input type="number" class="form-control" name="daily_budget" value="{{$is_edit?$advertising_campaign->daily_budget:old('daily_budget')}}">
                 </div>
             </div>
 
@@ -60,15 +68,7 @@
 
             <div class="mb-3 d-flex justify-content-end">
                 <button type="submit" class="btn btn-danger" name="submit" id="submit">Submit</button>
-            </div>
-            <div class="mb-3 d-flex justify-content-end">
-                <input type="submit" class="btn btn-danger" name="submit_2" value="submit mock">
-            </div>
-            <div class="mb-3">
-                <label for="">Creative upload</label>
-                <input type="file" class="form-control" name="just_files" id="">
-            </div>
-        
+            </div>     
 
         </form>
     </div>
@@ -132,16 +132,16 @@
                 keyboard: false
             });
 
-
-
             const fileInputs = document.querySelectorAll('input[type=file]');
-            // console.log(fileInputs); return;
 
             let uploadedFiles = [];
 
             const formData = new FormData();
 
             const form = document.querySelector('form#campaign_form');
+
+            formData.append('is_edit', form.is_edit.value);
+            formData.append('id', form.id.value);
 
             formData.append('name', form.name.value); 
             formData.append('date_from', form.date_from.value);
@@ -157,7 +157,7 @@
                 body: formData
             };
 
-            fetch('/api/advertising-campaign', config)
+            fetch('/api/v1/advertising-campaign', config)
             .then(response => {
                 console.log(response);
                 return response.json();
