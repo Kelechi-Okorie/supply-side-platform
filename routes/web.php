@@ -16,7 +16,10 @@ use App\Models\AdvertisingCampaign;
 |
 */
 
-Route::get('/', [AdvertisingCampaignController::class, 'index']);
+// Route::get('/', function(Request $request) {
+//     return view('campaign-list');
+// });
+Route::view('/', 'campaign-list');
 
 
 Route::get('/campaign/new', function(Request $request) {

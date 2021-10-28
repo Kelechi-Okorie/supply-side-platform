@@ -14,9 +14,12 @@ class AdvertisingCampaignController extends Controller
     public function index() {
         $advertising_campaign = AdvertisingCampaign::all();
 
-        // ddd($advertising_campaign);
-        return view('campaign-list')
-        ->with('advertising_campaigns', $advertising_campaign);
+        $data = [
+            'msg' => 'Success!',
+            'data' => $advertising_campaign
+        ];
+
+        return response()->json($data, 200);
     
     }
 
