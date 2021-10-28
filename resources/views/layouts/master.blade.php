@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Supply Side Platform for Eskimi</title>
+        <title>Supply Side Platform</title>
 
         <!-- Scripts -->
         <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
@@ -18,7 +18,7 @@
     </head>
     <body>
 
-        <header class="p-3 mb-2 bg-primary text-white"><h3 class="h3">Eskimi Supply Side Platform</h3></header>
+        <header class="p-3 mb-2 bg-primary text-white"><h3 class="h3">Supply Side Platform</h3></header>
 
         <div class="container">
             @yield('contents')
