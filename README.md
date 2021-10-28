@@ -24,7 +24,17 @@
     - AFter running the seeders change DB_HOST back to `mysql`
 
 - Run `composer install`
-- Open your browser and visit `http://localhost`  
+- Open your browser and visit `http://localhost`
+
+### Creating a symbolic link between storage/app/public and public/storage
+While using Laradock symbolic links created in the project folde will always return 404 in the browser. To solve this problem, if you need to upload files to the backend and make it available publicly you will need to create the symbolic link in the laradock workspace. Following the steps below
+- `docker-compose down`
+- `docker-compose up`
+- `docker ps` to get workspace container id
+- `docker exec -it [workspace-container-id] bash`
+- Run `php artisan storage:link` in the supply-side-platform directory. If it does not work, you can create it manually from the public    folder with `ln sf ../storage/app/public storage`
+
+[Read more about this on stackoverflow](https://stackoverflow.com/questions/64833653/laradock-404-not-found-files-with-symlink-to-storage)
 
 ### Running tests
 
