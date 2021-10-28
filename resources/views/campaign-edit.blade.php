@@ -10,7 +10,7 @@
 <div class="row justify-content-center">
     <div class="col-sm-12 col-md-10 col-lg-8">
         <div class="d-flex justify-content-end">
-            <a href={{ url('/')}} class="btn btn-primary ml-auto d-inline-block px-4">View All Campaigns</a>
+            <a href={{ route('list-campaigns')}} class="btn btn-primary ml-auto d-inline-block px-4">View All Campaigns</a>
         </div>
         <h4 class="h4 mb-4">{{$is_edit?'Edit':'New'}} Campaign</h4>
         

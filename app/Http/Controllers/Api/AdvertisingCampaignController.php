@@ -14,12 +14,12 @@ class AdvertisingCampaignController extends Controller
     public function index() {
         $advertising_campaign = AdvertisingCampaign::all();
 
-        $data = [
+        $response = [
             'msg' => 'Success!',
             'data' => $advertising_campaign
         ];
 
-        return response()->json($data, 200);
+        return response()->json($response, 200);
     
     }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AdvertisingCampaignController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\AdvertisingCampaign;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,40 +17,9 @@ use App\Models\AdvertisingCampaign;
 |
 */
 
-// Route::get('/', function(Request $request) {
-//     return view('campaign-list');
-// });
-Route::view('/', 'campaign-list');
+Route::get('/', [HomeController::class, 'index'])->name('list-campaigns');
 
 
-Route::get('/campaign/new', function(Request $request) {
-    return view('campaign-edit');
-})->name('new-campaign');
+Route::get('/campaign/new', [HomeController::class, 'new'])->name('new-campaign');
 
-Route::get('campaign/edit/{id}', function(Request $request, $id) {
-    $advertising_campaign = AdvertisingCampaign::find($id);
-    $creative_uploads = $advertising_campaign->creativeUploads;
-
-    return view('campaign-edit')
-        ->with('advertising_campaign', $advertising_campaign)
-        ->with('creative_uploads', $creative_uploads);
-
-})->name('edit-campaign');
-
-
-Route::get('/view/{id}', function(Request $request) {
-    $advertising_campaign = AdvertisingCampaign::find($request->id);
-    
-    if($advertising_campaign == null) {
-        return view('not-found');
-    }
-
-
-
-    $creative_uploads = $advertising_campaign->creativeUploads;
-
-    return view('campaign-view')
-    ->with('advertising_campaign', $advertising_campaign)
-    ->with('creative_uploads', $creative_uploads);
-
-})->name('view-campaign');
+Route::get('campaign/edit/{id}', [HomeController::class, 'edit'])->name('edit-campaign');
