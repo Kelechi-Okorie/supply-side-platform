@@ -32,7 +32,8 @@ While using Laradock symbolic links created in the project folde will always ret
 - `docker-compose up`
 - `docker ps` to get workspace container id
 - `docker exec -it [workspace-container-id] bash`
-- Run `php artisan storage:link` in the supply-side-platform directory. If it does not work, you can create it manually from the public    folder with `ln sf ../storage/app/public storage` [Read more about this on stackoverflow](https://stackoverflow.com/questions/64833653/laradock-404-not-found-files-with-symlink-to-storage)
+- Run `php artisan storage:link` in the supply-side-platform directory. If it does not work, you can create it manually from the public    folder with `ln sf ../storage/app/public storage` 
+[Read more about this on stackoverflow](https://stackoverflow.com/questions/64833653/laradock-404-not-found-files-with-symlink-to-storage)
 
 ### Running tests
 
