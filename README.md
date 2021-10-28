@@ -1,4 +1,4 @@
-<h3 align="center"><a href="" target="_blank">Eskimi Supply Side Platform</h3>
+<h3 align="center"><a href="" target="_blank">Supply Side Platform</h3>
 
 ### How the environment should be set up
 
