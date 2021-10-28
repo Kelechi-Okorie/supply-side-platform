@@ -79,7 +79,7 @@
 <template id="creative_upload_input_element">
     <div class="mb-3">
         <label for="">Creative upload</label>
-        <input type="file" class="form-control" name="creative_upload" id="">
+        <input type="file" accept="image/*" class="form-control" name="creative_upload" id="">
     </div>
 </template>
 

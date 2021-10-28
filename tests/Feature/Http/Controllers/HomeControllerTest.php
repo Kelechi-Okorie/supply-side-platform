@@ -12,7 +12,7 @@ class HomeControllerTest extends TestCase
     use RefreshDatabase;
 
 
-    public function test_we_can_reach_the_index_page() {
+    public function test_user_can_reach_the_index_page() {
         $this->withoutExceptionHandling();
 
         $response = $this->get('/');
@@ -20,7 +20,15 @@ class HomeControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_we_can_reach_the_advertising_campaign_edit_page()
+    public function test_user_can_reach_the_create_new_advertising_campaign_page() {
+        $this->withoutExceptionHandling();
+
+        $response = $this->get('/campaign/new');
+
+        $response->assertStatus(200);
+    }
+
+    public function test_user_can_reach_the_advertising_campaign_edit_page()
     {
         $this->withoutExceptionHandling();
         
