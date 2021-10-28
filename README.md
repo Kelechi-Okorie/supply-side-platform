@@ -2,7 +2,7 @@
 
 ### How the environment should be set up
 
-- You must have `Docker` and `Composer` installed on your system
+- You must have `Docker`, PHP, and `Composer` installed on your system
 - Clone the repository
 - cd into the supply-side-platform directory
 - Enter laradock folder and `copy .env.example to .env`
