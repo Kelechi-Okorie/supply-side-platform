@@ -24,15 +24,8 @@
           <td>{{ campaign.total_budget.toFixed(2) }}</td>
           <td>{{ campaign.daily_budget.toFixed(2) }}</td>
           <td>
-            <a class="btn btn-primary ml-auto d-inline-block px-4">Edit</a>
-            <a
-              class="btn btn-info"
-              v-on:click="fetchCreativeUploads"
-              :data-campaign_id="campaign.id"
-              :data-campaign_name="campaign.name"
-              >Creative Uploads</a
-            >
-            <creative-button></creative-button>
+            <creative-button :campaign_id="campaign.id" :campaign_name="campaign.name"></creative-button>
+            <a v-bind:href="'/campaign/edit/' + campaign.id" class="btn btn-danger btn-sm ml-auto d-inline-block px-4">Edit</a>
           </td>
         </tr>
       </tbody>
@@ -71,7 +64,6 @@ export default {
 
   mounted() {
     this.loadAdvertisingCampaings();
-    console.log("List component mounted.");
   },
 
   methods: {
@@ -90,44 +82,6 @@ export default {
         });
     },
 
-    fetchCreativeUploads: function (event) {
-      const element = event.srcElement;
-
-      const campaignId = element.dataset.campaign_id;
-
-      fetch(`/api/v1/advertising-campaign/${campaignId}/images`)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          const bootstrapModal = new bootstrap.Modal(
-            document.querySelector("#uploaded_previews_modal"),
-            { backdrop: true }
-          );
-          const modal = document.querySelector("#uploaded_previews_modal");
-          const title = modal.querySelector(".modal-title");
-          const body = modal.querySelector(".modal-body");
-          title.textContent = `${element.dataset.campaign_name}`;
-
-          data.forEach((datum) => {
-            const img = document.createElement("img");
-            img.className = "img-fluid";
-            img.src = datum;
-            body.appendChild(img);
-          });
-
-          bootstrapModal.show();
-        })
-        .catch((e) => {
-          console.log("an error occured while fetching images", e);
-        });
-
-      const modal = document.querySelector("#uploaded_previews_modal");
-      modal.addEventListener("hidden.bs.modal", function (e) {
-        const body = modal.querySelector(".modal-body");
-        body.innerHTML = "";
-      });
-    },
   },
 
   components: {

@@ -8,6 +8,6 @@ Vue.component('list-component', require('./components/ListComponent.vue').defaul
 Vue.component('creative-button', require('./components/CreativeUploadButtonComponent.vue').default);
 
 // Initialize Vue
-const app = new Vue({
+new Vue({
     el: '#app',
 });

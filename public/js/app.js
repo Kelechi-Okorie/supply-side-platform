@@ -21,7 +21,38 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    clickHandler: function clickHandler(event) {
+      var _this = this;
+
+      fetch("/api/v1/advertising-campaign/".concat(this.campaign_id, "/images")).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        var bootstrapModal = new bootstrap.Modal(document.querySelector("#uploaded_previews_modal"), {
+          backdrop: true
+        });
+        var modal = document.querySelector("#uploaded_previews_modal");
+        var title = modal.querySelector(".modal-title");
+        var body = modal.querySelector(".modal-body");
+        title.textContent = "".concat(_this.campaign_name);
+        data.forEach(function (datum) {
+          var img = document.createElement("img");
+          img.className = "img-fluid";
+          img.src = datum;
+          body.appendChild(img);
+        });
+        bootstrapModal.show();
+      })["catch"](function (e) {
+        console.log("an error occured while fetching images", e);
+      });
+      var modal = document.querySelector("#uploaded_previews_modal");
+      modal.addEventListener("hidden.bs.modal", function (e) {
+        var body = modal.querySelector(".modal-body");
+        body.innerHTML = "";
+      });
+    }
+  },
+  props: ["campaign_id", "campaign_name"]
 });
 
 /***/ }),
@@ -93,13 +124,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -108,7 +132,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.loadAdvertisingCampaings();
-    console.log("List component mounted.");
   },
   methods: {
     loadAdvertisingCampaings: function loadAdvertisingCampaings() {
@@ -122,35 +145,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.advertisingCampaings = response.data;
       })["catch"](function (e) {
         console.log("an error occured");
-      });
-    },
-    fetchCreativeUploads: function fetchCreativeUploads(event) {
-      var element = event.srcElement;
-      var campaignId = element.dataset.campaign_id;
-      fetch("/api/v1/advertising-campaign/".concat(campaignId, "/images")).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        var bootstrapModal = new bootstrap.Modal(document.querySelector("#uploaded_previews_modal"), {
-          backdrop: true
-        });
-        var modal = document.querySelector("#uploaded_previews_modal");
-        var title = modal.querySelector(".modal-title");
-        var body = modal.querySelector(".modal-body");
-        title.textContent = "".concat(element.dataset.campaign_name);
-        data.forEach(function (datum) {
-          var img = document.createElement("img");
-          img.className = "img-fluid";
-          img.src = datum;
-          body.appendChild(img);
-        });
-        bootstrapModal.show();
-      })["catch"](function (e) {
-        console.log("an error occured while fetching images", e);
-      });
-      var modal = document.querySelector("#uploaded_previews_modal");
-      modal.addEventListener("hidden.bs.modal", function (e) {
-        var body = modal.querySelector(".modal-body");
-        body.innerHTML = "";
       });
     }
   },
@@ -172,7 +166,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 Vue.component('list-component', __webpack_require__(/*! ./components/ListComponent.vue */ "./resources/js/components/ListComponent.vue")["default"]);
 Vue.component('creative-button', __webpack_require__(/*! ./components/CreativeUploadButtonComponent.vue */ "./resources/js/components/CreativeUploadButtonComponent.vue")["default"]); // Initialize Vue
 
-var app = new Vue({
+new Vue({
   el: '#app'
 });
 
@@ -351,9 +345,11 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { staticClass: "btn btn-info" }, [
-    _vm._v("Creative uploads cmp"),
-  ])
+  return _c(
+    "a",
+    { staticClass: "btn btn-info btn-sm", on: { click: _vm.clickHandler } },
+    [_vm._v("Creative uploads")]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -401,28 +397,22 @@ var render = function () {
             _c(
               "td",
               [
+                _c("creative-button", {
+                  attrs: {
+                    campaign_id: campaign.id,
+                    campaign_name: campaign.name,
+                  },
+                }),
+                _vm._v(" "),
                 _c(
                   "a",
                   {
-                    staticClass: "btn btn-primary ml-auto d-inline-block px-4",
+                    staticClass:
+                      "btn btn-danger btn-sm ml-auto d-inline-block px-4",
+                    attrs: { href: "/campaign/edit/" + campaign.id },
                   },
                   [_vm._v("Edit")]
                 ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      "data-campaign_id": campaign.id,
-                      "data-campaign_name": campaign.name,
-                    },
-                    on: { click: _vm.fetchCreativeUploads },
-                  },
-                  [_vm._v("Creative Uploads")]
-                ),
-                _vm._v(" "),
-                _c("creative-button"),
               ],
               1
             ),
