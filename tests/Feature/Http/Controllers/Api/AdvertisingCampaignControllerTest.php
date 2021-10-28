@@ -15,7 +15,7 @@ class AdvertisingCampaignControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_all_advertising_campaigns_are_returned()
+    public function test_user_can_get_list_of_all_advertising_campaigns()
     {
         $this->withoutExceptionHandling();
 
